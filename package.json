@@ -1,0 +1,9 @@
+{
+  "name": "Prueba3",
+  "description": "Tabris.js - Login screen",
+  "version": "0.0.1",
+  "main": "src/start.js",
+  "dependencies": {
+    "tabris": "^1.7.0"
+  }
+}
