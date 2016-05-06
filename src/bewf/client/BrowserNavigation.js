@@ -262,7 +262,7 @@ jsw.qx.Class.define( "jsw.client.BrowserNavigation", {
     {
       // RAP [if] Fix for bug 295816
       //var href = top.location.href;
-      var href = window.location.href;
+      var href = window.location.href || '';
       var idx = href.indexOf( "#" );
       return idx >= 0 ? href.substring(idx+1) : "";
     },

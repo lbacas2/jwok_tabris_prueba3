@@ -19,9 +19,12 @@ jsw.qx.Class.define( "jsw.runtime.ErrorHandler", {
     _box : null,
 
     processJavaScriptErrorInResponse : function( script, error, currentRequest ) {
+	/*
       var content = this._getErrorPageHeader();
       content += "<pre>" + this._gatherErrorDetails( error, script, currentRequest ) + "</pre>";
       this.showErrorPage( content );
+	*/ 
+	console.error ( error );
     },
 
     processJavaScriptError : function( error ) {
@@ -64,6 +67,13 @@ jsw.qx.Class.define( "jsw.runtime.ErrorHandler", {
       if( freeze ) {
         this._freezeApplication();
       }
+	  
+// TODO: Temporal. Revisar y corregir
+	  if ( jsw.client.Client.isTabris() ) {
+		  var errorBoxData = this._getErrorBoxData( errorType );
+		  return;
+	  }
+	  
       this._overlay = this._createOverlay();
       this._box = this._createErrorBoxArea( 450, 150 );
       this._box.style.padding = "0px";
@@ -86,6 +96,11 @@ jsw.qx.Class.define( "jsw.runtime.ErrorHandler", {
     },
 
     showWaitHint : function() {
+	  // TODO: Temporal. Revisar y corregir
+	  if ( jsw.client.Client.isTabris() ) {
+		  return;
+	  }
+
       this._overlay = this._createOverlay();
       // TODO: Revisar
       /*
@@ -334,7 +349,7 @@ jsw.qx.Class.define( "jsw.runtime.ErrorHandler", {
     },
 
     _getRestartURL : function() {
-      var result = String( window.location );
+      var result = String( window.location || '' );
       var index = result.indexOf( "#" );
       if( index != -1 ) {
         result = result.substring( 0, index );

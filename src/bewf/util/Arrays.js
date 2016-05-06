@@ -11,7 +11,9 @@
  *    EclipseSource - adaptation for the Eclipse Remote Application Platform
  ******************************************************************************/
 
-namespace( "jsw.util" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.util" );
 
 /**
  * Helper functions for arrays.

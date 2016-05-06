@@ -183,7 +183,7 @@ jsw.qx.Class.define( "jsw.remote.Connection", {
 
     _createRequest : function() {
       var parameters = "cid=" + this._connectionId;
-      var url = this._url + ( this._url.indexOf( "?" ) >= 0 ? "&" : "?" ) + parameters;
+      var url = this.getUrl() + ( this.getUrl().indexOf( "?" ) >= 0 ? "&" : "?" ) + parameters;
       var result = new jsw.remote.Request( url, "POST", "application/json" );
       result.setSuccessHandler( this._handleSuccess, this );
       result.setErrorHandler( this._handleError, this );

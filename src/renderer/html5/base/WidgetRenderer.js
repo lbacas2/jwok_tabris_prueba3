@@ -3,6 +3,13 @@ jsw.qx.Class.define( "renderer.html5.base.WidgetRenderer", {
 
 	extend : renderer.base.WidgetRenderer,
 
+	construct : function() {
+		this.base( arguments );
+		
+		this.__templateName = null;
+		this.__retries      = 0;
+	},
+	
 	/*
 	 *****************************************************************************
      STATICS
@@ -74,13 +81,44 @@ jsw.qx.Class.define( "renderer.html5.base.WidgetRenderer", {
 	    	return elem;
 	    },
 	},
-
+	
 	/*
 	 *****************************************************************************
      MEMBERS
 	 *****************************************************************************
 	 */
 	members : {
+		onDispose : function( evt ) {
+			if ( this.getEl() !== null ) {
+				this.getEl().removeAttr('data-widget-id' );
+				this.getEl().removeAttr('data-widget-type' );
+			}
+			
+			this.base( arguments, evt );
+		},
+		
+		getTemplateName : function() {
+			return this.__templateName;
+		},
+		
+		hasTemplateName : function() {
+			return this.getTemplateName() !== null;
+		},
+		
+		setTemplateName : function( value ) {
+			if (typeof value !== 'string') {
+				value = null;
+			} 
+			this.__templateName = value;
+		},
+		
+		__getRendererRetries : function() {
+			return this.__retries;
+		}, 
+		
+		__incrRendererRetries : function() {
+			this.__retries++;
+		}
 		
 		_onPropertyChangeEvent : function( evt ) {
 			this.base( arguments, evt );
@@ -130,7 +168,7 @@ jsw.qx.Class.define( "renderer.html5.base.WidgetRenderer", {
 				
 				if ( this.isTemplated() ) {
 					this.getParent().removeEventListener( renderer.base.Renderer.RENDER_EVENT_TYPE, this._onParentRenderedEvent, this );
-					if (this.getParent() ) {
+					if ( this.getParent() ) {
 						if ( this.getParent().isRendered() ) {
 							this.__incrRendererRetries();
 							this.render();
@@ -154,7 +192,6 @@ jsw.qx.Class.define( "renderer.html5.base.WidgetRenderer", {
 			return;
 		},
 		
-		//@Override
 		__addToRetryRenderAfterQueue : function() {
 			var isRenderer       = (this.isRendered() && this.getEl() !== null);
 			var isAsyncRendering = (typeof this._isAsyncRendering === 'function' && this._isAsyncRendering() === true && this._isRenderingInProgress() === true );

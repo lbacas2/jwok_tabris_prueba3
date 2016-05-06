@@ -12,7 +12,9 @@
  *    EclipseSource - adaptation for the Eclipse Remote Application Platform
  ******************************************************************************/
 
-namespace( "jsw.event" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.event" );
 
 
 jsw.event.EventHandler = {

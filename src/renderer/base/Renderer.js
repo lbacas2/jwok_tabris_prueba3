@@ -6,14 +6,12 @@ jsw.qx.Class.define( "renderer.base.Renderer", {
 	construct : function() {
 		this.base( arguments );
 		
-		this.$el            = null;
-		this._parent        = null;
-		this._children      = [];
-		this.__events       = []; // Para registrar los eventos recibidos. Solo para funciones de auditoria
-		this.__rendered     = false; 
-		this.__templated    = false;
-		this.__templateName = null;
-		this.__retries      = 0;
+		this.$el         = null;
+		this._parent     = null;
+		this._children   = [];
+		this.__events    = []; // Para registrar los eventos recibidos. Solo para funciones de auditoria
+		this.__rendered  = false; 
+		this.__templated = false;
 	},
 
 	destruct : function() {
@@ -54,20 +52,6 @@ jsw.qx.Class.define( "renderer.base.Renderer", {
 			this.__templated = value;
 		},
 		
-		getTemplateName : function() {
-			return this.__templateName;
-		},
-		
-		hasTemplateName : function() {
-			return this.getTemplateName() !== null;
-		},
-		
-		setTemplateName : function( value ) {
-			if (typeof value !== 'string') {
-				value = null;
-			} 
-			this.__templateName = value;
-		},
 		
 		isRendered : function() {
 			return this.__rendered;
@@ -104,14 +88,6 @@ jsw.qx.Class.define( "renderer.base.Renderer", {
 		__getEvents : function() {
 			return this.__events;
 		},
-		
-		__getRendererRetries : function() {
-			return this.__retries;
-		}, 
-		
-		__incrRendererRetries : function() {
-			this.__retries++;
-		}
 	}
 
 });

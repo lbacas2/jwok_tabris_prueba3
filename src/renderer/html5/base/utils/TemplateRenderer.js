@@ -1,4 +1,6 @@
 
+var jws=require("../../../../jws.js");
+
 jsw.qx.Class.define("renderer.html5.base.utils.Template",
 {
 	type : 'static',
@@ -9,7 +11,6 @@ jsw.qx.Class.define("renderer.html5.base.utils.Template",
 	*****************************************************************************
 	*/
 	statics : {
-		PATH: window.location.pathname.replace(/\/[^\/]+$/,"") + '/tester/',
 		FILE_EXT: '.mustache',
 		__templates : {
 			'jsw.widgets.JSWShell' : {
@@ -34,7 +35,7 @@ jsw.qx.Class.define("renderer.html5.base.utils.Template",
 				templateStr = this.__getTemplatePath( wRenderer.getJSWWidget() );
 				
 				if (templateStr !== null && this.__store[templateStr] === undefined) {
-					renderer.base.AjaxRemoteUtils.doPost(this, templateStr, 
+					renderer.base.AjaxRemoteUtils.doPost(this, templateStr, null, 
 							function(msg) {
 								this.__store[templateStr] = msg;
 								wRenderer.templateIsDone( templateStr );
@@ -112,7 +113,7 @@ jsw.qx.Class.define("renderer.html5.base.utils.Template",
 					if (templateStr === '-') {
 						templateStr = widgetRole;
 					}
-					templateStr =  getServerUrl( null, '/tester/' ) + templateStr + this.FILE_EXT;
+					templateStr = jws.getServerUrl( serverUrl, templatePath ) + '/' + templateStr + this.FILE_EXT;
 					
 				} else if (widgetType === 'jsw.widgets.Composite') {
 					if ( widgetRole.match(/^view\.T(|E)View_\w+$/i) !== null 
@@ -121,7 +122,7 @@ jsw.qx.Class.define("renderer.html5.base.utils.Template",
 									|| widgetRole.match(/^graph\.TGraph_\w+$/i) !== null 
 									|| widgetRole.match(/^explorer.TExplorer_\w+$/i) !== null
 									|| widgetRole.match(/^detail.TDetail_\w+$/i) !== null ) {
-						templateStr =  getServerUrl( null, '/tester/' ) + widgetRole + this.FILE_EXT;
+						templateStr = jws.getServerUrl( serverUrl, templatePath ) + '/' + widgetRole + this.FILE_EXT;
 					}
 				}
 				

@@ -1,18 +1,19 @@
 
 jsw.qx.Class.define( "renderer.tabris.ButtonRenderer", {
 
-	extend : renderer.ButtonRenderer,
+	extend : renderer.tabris.WidgetRenderer,
 
 	members : {
 		render : function() {
-			if ( this.getParent() !== null && this.getParent().getEl() !== null ) {
+			var parentElem = this.getEffectiveParentElement();
+			if ( parentElem !== null ) {
 				var _this = this;
 				var elem = new tabris.Button({
 						id : this.getJSWWidget().getRenderRole(),
-				}).appendTo( this.getParent().getEl() );
+				}).appendTo( parentElem );
 				
 				this.setEl( elem );
-				elem.on("select", function() {
+				elem.on("select", function( button ) {
 					_this.onCommand();
 				});
 				
@@ -23,7 +24,21 @@ jsw.qx.Class.define( "renderer.tabris.ButtonRenderer", {
 			}
 			
 			this._renderIsDone();
-		}, 
+		},
+		
+		_onPropertyChangeEvent : function( evt ) {
+			this.base( arguments, evt );
+			
+			switch (evt.property) {
+				case 'text':
+					this._updateText();
+					break;
+				case 'image':
+					this._updateImage();
+					break;
+				default:
+			}
+		},
 		
 		_updateText : function () {
 			if ( this.getEl() !== null ) {

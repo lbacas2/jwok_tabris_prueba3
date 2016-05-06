@@ -10,7 +10,7 @@ jsw.qx.Mixin.define( "renderer.base.mixin.ParentWidgetRenderer", {
 			var childrenAux = this.getJSWWidget().getChildren();
 			var arrayLength = childrenAux.length;
 			for (var i = 0; i < arrayLength; i++) {
-				this.__createChildWidget(childrenAux[i]);
+				this.__createChildWidget( childrenAux[i] );
 			}
 			return;
 		},
@@ -18,14 +18,14 @@ jsw.qx.Mixin.define( "renderer.base.mixin.ParentWidgetRenderer", {
 		__createChildWidget : function(widget) {
 			var widgetRenderer = null;
 			var role = widget.getRenderRole();
-			if(role && renderer.base.RendererHandlerRegistry.getInstance().hasHandler(widget.classname +":" + role) ) {
+			if ( role && renderer.base.RendererHandlerRegistry.getInstance().hasHandler(widget.classname +":" + role) ) {
 				widgetRenderer = renderer.base.RendererHandlerRegistry.getInstance().getHandler(widget.classname +":" + role).create();
 			}
-			if(widgetRenderer == null) {
+			if ( widgetRenderer == null ) {
 				widgetRenderer = renderer.base.RendererHandlerRegistry.getInstance().getHandler(widget.classname).create();
 			}
 			
-			if(widgetRenderer != null) {
+			if ( widgetRenderer != null ) {
 				widgetRenderer.setParent(this);
 				widgetRenderer.setJSWWidget(widget);
 			}

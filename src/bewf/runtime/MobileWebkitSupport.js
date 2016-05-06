@@ -12,7 +12,9 @@
 
 /*global alert:false, console:false */
 
-namespace( "jsw.runtime" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.runtime" );
 
 
 jsw.runtime.MobileWebkitSupport = {

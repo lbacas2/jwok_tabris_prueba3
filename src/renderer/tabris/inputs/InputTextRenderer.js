@@ -1,50 +1,44 @@
 
 jsw.qx.Class.define( "renderer.tabris.InputTextRenderer", {
 
-	extend : renderer.InputTextRenderer,
+	extend : renderer.tabris.InputControlRenderer,
 
 	members : {
 		render : function() {
-			if ( this.getParent() !== null && this.getParent().getEl() !== null ) {
+			var parentElem = this.getEffectiveParentElement();
+			if ( parentElem !== null ) {
 				var _this = this;
 				var elem = new tabris.TextInput({
 						id :       this.getJSWWidget().getRenderRole(),
 						keyboard : 'default',
-						type :     'default'
-				}).appendTo( this.getParent().getEl() );
+// TODO: Cambiar
+						//type :     'default'
+						type : ( this.getJSWWidget().getRenderRole() === 'passwordInput' ? 'password' : 'default' )
+				}).appendTo( parentElem );
 				
 				this.setEl( elem );
-				
-				elem.on("select", function() {
-					_this.onCommand();
-				});
-				
 				this.base( arguments );
 				
-				this._updateValue();
-				this._updatePlaceholder();
-				this._updateReadOnly();
+				// Initializate control: Set value, readOnly and placeholder properties.
+				this.init();
+				this.addInputControlListeners();
+				
+// TODO: eliminar!!!!
+
+				switch ( this.getJSWWidget().getRenderRole() ) {
+					case 'userInput':
+						//this.getJSWWidget().setValue( 'enrique.almohalla' );
+						this.getJSWWidget().setValue( 'netzima' );
+						break;
+					case 'passwordInput':
+						this.getJSWWidget().setValue( 'netzima' );
+						break;
+					default:
+				}
+// TODO: HASTA AQUÍ
 			}
 			
 			this._renderIsDone();
-		},
-		
-		_updateValue : function () {
-			if ( this.getEl() !== null ) {
-				this.getEl().set( 'text', this.getJSWWidget().getValue() );
-			}
-		},
-		
-		_updatePlaceholder : function () {
-			if ( this.getEl() !== null ) {
-				this.getEl().set( 'message', this.getJSWWidget().getPlaceHolder() );
-			}
-		},
-		
-		_updateReadOnly : function () {
-			if ( this.getEl() !== null ) {
-				this.getEl().set( 'editable', !this.getJSWWidget().isReadOnly() );
-			}
 		},
 
 	}

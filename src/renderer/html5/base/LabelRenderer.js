@@ -77,7 +77,7 @@ jsw.qx.Class.define( "renderer.html5.base.LabelRenderer", {
 		}
 	}
 
-} );
+});
 
 renderer.base.RendererHandlerRegistry.getInstance().add("jsw.widgets.Label", {
 	create : function() {

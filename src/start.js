@@ -1,28 +1,14 @@
-var serverUrl = 'http://10.0.1.190:8080';
+
+/* Global variables */
+// No incluir la barra al final en ninguno de los parámetros
+serverUrl    = 'http://10.0.1.190:10090';
+//serverUrl    = 'https://apps.netzima.com/crm';
+serverPath   = '/bewf';
+templatePath = '/tester';
 
 jws = {};
 
-var namespace = function( name ) {
-  var splits = name.split( "." );
-  var parent = window;
-  var part = splits[ 0 ];
-  for( var i = 0, len = splits.length - 1; i < len; i++, part = splits[ i ] ) {
-    if( !parent[ part ] ) {
-      parent = parent[ part ] = {};
-    } else {
-      parent = parent[ part ];
-    }
-  }
-  if( !( part in parent ) ) {
-    parent[ part ] = {};
-  }
-  return part;
-};
-
-exports.namespace = namespace;
-
-
-// require("./jws.js");
+var jws=require("./jws.js");
 
 require("./bewf/runtime/BrowserFixes.js");
 require("./bewf/util/Arrays.js");
@@ -228,41 +214,59 @@ require("./renderer/base/RendererQueueManager.js");
 require("./renderer/base/ConnectionRenderer.js");
 
 
+require("./renderer/tabris/utils/TemplateRenderer.js");
+require("./renderer/tabris/WidgetRenderer.js");
+require("./renderer/tabris/ParentWidgetRenderer.js");
+require("./renderer/tabris/InputControlRenderer.js");
+
+require("./renderer/tabris/ActiveLinkRenderer.js");
+require("./renderer/tabris/BrowserViewerRenderer.js");
 require("./renderer/tabris/ButtonRenderer.js");
 require("./renderer/tabris/CompositeRenderer.js");
+require("./renderer/tabris/DisplayRenderer.js");
 require("./renderer/tabris/ImageRenderer.js");
+require("./renderer/tabris/LabelRenderer.js");
+require("./renderer/tabris/LinkRenderer.js");
+require("./renderer/tabris/ToolBarRenderer.js");
+require("./renderer/tabris/ToolItemRenderer.js");
 require("./renderer/tabris/ShellRenderer.js");
+require("./renderer/tabris/StackCompositeRenderer.js");
+require("./renderer/tabris/inputs/combo/InputComboGroupRenderer.js");
+require("./renderer/tabris/inputs/combo/InputComboOptionRenderer.js");
+require("./renderer/tabris/inputs/combo/InputComboRenderer.js");
+require("./renderer/tabris/inputs/combo/InputComboSeparatorRenderer.js");
+require("./renderer/tabris/inputs/InputPasswordRenderer.js");
 require("./renderer/tabris/inputs/InputTextRenderer.js");
+require("./renderer/tabris/menu/MenuRenderer.js");
+require("./renderer/tabris/menu/MenuSeparatorRenderer.js");
+require("./renderer/tabris/menu/MenuModuleRenderer.js");
+require("./renderer/tabris/menu/MenuModuleItemRenderer.js");
+require("./renderer/tabris/sidebar/SideBarRenderer.js");
+require("./renderer/tabris/sidebar/SideBarGroupRenderer.js");
+require("./renderer/tabris/sidebar/SideBarModuleRenderer.js");
+require("./renderer/tabris/sidebar/SideBarModuleItemRenderer.js");
+require("./renderer/tabris/table/TableRenderer.js");
+require("./renderer/tabris/table/TableRowRenderer.js");
+require("./renderer/tabris/table/TableColumnRenderer.js");
+require("./renderer/tabris/tabs/TabsRenderer.js");
+require("./renderer/tabris/tabs/TabItemRenderer.js");
 
-                
 require("./bewf.js")
 
 
-var createConnection = function(connPath) {
-
-	// Se crea la conexión
-	connection = new jsw.connection.Connection();
-
-	// Se crea el renderer de la conexión
-	var connectionRenderer = renderer.base.RendererHandlerRegistry.getInstance().getHandler("jsw.connection.Connection").create();
-	connectionRenderer.setConnection(connection);
-	
-	// Se pasan parametros a la conexión
-	connection.setUrl( connPath );
-
-	// Se intenta conectar
-	connection.connect();
-	
-	// Se retorna la conexión
-	return connection;
-}
-
-var getServerUrl = function( pServerUrl, pServerPath ) {
-	pServerUrl  = pServerUrl  || ( typeof serverUrl  !== 'undefined' ? serverUrl  : window.location.pathname.replace(/\/[^\/]+$/,"") );
-	pServerPath = pServerPath || ( typeof serverPath !== 'undefined' ? serverPath : '/bewf' );
-	
-	return pServerUrl + pServerPath;
-}
-
 // Init connection to server 
-window.jswConnection = createConnection( getServerUrl( serverUrl, '/bewf' ) );
+window.jswConnection = jws.createConnection( jws.getServerUrl( serverUrl, serverPath ) );
+
+/*
+// DEMO 
+
+new tabris.Drawer().append(new tabris.PageSelector());
+
+new tabris.Page({
+		id :       'fakePage',
+		title :    'Página de prueba',
+		topLevel : true
+}).open();
+
+tabris.ui.children("#fakePage").set( 'background', 'blue' );
+*/

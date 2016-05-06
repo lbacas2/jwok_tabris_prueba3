@@ -3,6 +3,12 @@ jsw.qx.Class.define( "renderer.base.WidgetRenderer", {
 
 	extend : renderer.base.Renderer,
 
+	construct : function() {
+		this.base( arguments );
+		
+		this._jswWidget = null;
+	},
+	
 	/*
 	 *****************************************************************************
      STATICS
@@ -37,7 +43,7 @@ jsw.qx.Class.define( "renderer.base.WidgetRenderer", {
 			return this._jswWidget;
 		},
 		
-		findRendererForWidget : function(widget) {
+		findRendererForWidget : function( widget ) {
 			if (this.getJSWWidget() === widget ) {
 				return this;
 			}
@@ -70,13 +76,7 @@ jsw.qx.Class.define( "renderer.base.WidgetRenderer", {
 		},
 		
 		onDispose : function(evt) {
-			if ( this.getEl() !== null ) {
-				this.getEl().removeAttr('data-widget-id' );
-				this.getEl().removeAttr('data-widget-type' );
-			}
-			
 			this.getJSWWidget().removeEventListener( jsw.widgets.base.WidgetEvent.WidgetEventType_PROPERTY, this._onPropertyChangeEvent, this );
-			return;
 		},
 		
 		_onPropertyChangeEvent : function( evt ) {
@@ -106,6 +106,7 @@ jsw.qx.Class.define( "renderer.base.WidgetRenderer", {
 		_updateEnabled : function() {
 		},
 		
+		/*
 		_tryRender : function() {
 			try {
 				var renderRole = this.getJSWWidget().getRenderRole() || '';
@@ -113,11 +114,7 @@ jsw.qx.Class.define( "renderer.base.WidgetRenderer", {
 				this.getParent().removeEventListener( renderer.base.Renderer.RENDER_EVENT_TYPE, this._onParentRenderedEvent, this );
 				if (this.getParent() ) {
 					if ( this.getParent().isRendered() ) {
-						this.__incrRendererRetries();
 						this.render();
-						
-						// En caso de no tener elemento HTML asociado pero tener renderRole, lo reintentamos mas tarde.
-						this.__addToRetryRenderAfterQueue();
 					} else {
 						this._waitFromParentRenderer();
 					}
@@ -128,15 +125,7 @@ jsw.qx.Class.define( "renderer.base.WidgetRenderer", {
 				console.error (ex.stack);
 			}
 		},
-		
-		__addToRetryRenderAfterQueue : function() {
-			var isRenderer       = (this.isRendered() && this.getEl() !== null);
-			var hasRenderRole    = (this.getJSWWidget().getRenderRole() !== null);
-			
-			if ( !isRenderer && hasRenderRole && this.__getRendererRetries() < 10 ) {
-				renderer.base.Renderer.RendererQueueManager.addToRetryRenderAfterQueue( this );
-			}
-		},
+		*/
 		
 		_waitFromParentRenderer : function() {
 			this.getParent().addEventListener( renderer.base.Renderer.RENDER_EVENT_TYPE, this._onParentRenderedEvent, this );

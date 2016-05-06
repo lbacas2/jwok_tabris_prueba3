@@ -11,7 +11,9 @@
 
 (function() {
 
-namespace( "jsw.remote" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.remote" );
 
 var paused = false;
 var pendingMessage = null;
@@ -44,7 +46,7 @@ jsw.remote.MessageProcessor = {
   processHead : function( head ) {
     var connection = jsw.remote.Connection.getInstance();
     if( head.url !== undefined ) {
-      connection.setUrl( head.url );
+      connection.setUrl( jsw.connection.Connection.getMessageConnection().getUrl() || head.url );
     }
     if( head.requestCounter !== undefined ) {
       connection.setRequestCounter( head.requestCounter );
@@ -60,9 +62,11 @@ jsw.remote.MessageProcessor = {
     try {
       switch( action ) {
         case "create":
-          this._processCreate( operation[ 1 ], operation[ 2 ], operation[ 3 ] );
+//		console.log( '_processCreate: ' + operation[1] + ', ' + operation[2] + ', ' + JSON.stringify( operation[ 3 ] ) );
+          this._processCreate( operation[ 1 ], operation[ 2 ], operation[3] ) ;
         break;
         case "set":
+//		console.log( '_processSet: ' + operation[1] + ', ' + JSON.stringify( operation[2] ) );
           this._processSet( operation[ 1 ], operation[ 2 ] );
         break;
         case "listen":
@@ -72,6 +76,7 @@ jsw.remote.MessageProcessor = {
           this._processCall( operation[ 1 ], operation[ 2 ], operation[ 3 ] );
         break;
         case "destroy":
+//		console.log( '_processDestroy: ' + operation[1] );
           this._processDestroy( operation[ 1 ] );
         break;
       }

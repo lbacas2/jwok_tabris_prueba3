@@ -37,14 +37,17 @@ jsw.qx.Class.define( "jsw.widgets.base.ClientDocument", {
     this.base( arguments );
     this._window = window;
     this._document = window.document;
-    // init element
-    this.setElement( this._document.body );
-    this.getElement().setAttribute( "spellcheck", "false" );
-    // reset absolute position
-    this._document.body.style.position = "";
-    // cache current size
-    this._cachedInnerWidth = this._document.body.offsetWidth;
-    this._cachedInnerHeight = this._document.body.offsetHeight;
+	
+	if ( !jsw.client.Client.isTabris() && typeof this._document.body !== 'undefined' && this._document.body !== null ) {
+		// init element
+		this.setElement( this._document.body );
+		this.getElement().setAttribute( "spellcheck", "false" );
+		// reset absolute position
+		this._document.body.style.position = "";
+		// cache current size
+		this._cachedInnerWidth = this._document.body.offsetWidth;
+		this._cachedInnerHeight = this._document.body.offsetHeight;
+	}
     // add resize handler
     this.addEventListener( "windowresize", this._onwindowresize );
     // dialog support

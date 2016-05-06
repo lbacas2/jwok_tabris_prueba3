@@ -105,17 +105,18 @@ jsw.qx.Class.define( "jsw.connection.Connection", {
 
 		_loadMainRWT : function(){
 			// Se realiza la llamada inicial. La respuesta se procesa en asincrono mediante la función onMainRWTLoad
-			this._xmlhttp=new XMLHttpRequest();
 			var thisObj = this;
-			this._xmlhttp.onreadystatechange=function(){
+			
+			this._xmlhttp = new XMLHttpRequest();
+			this._xmlhttp.onreadystatechange = function() {
 				thisObj._onMainRWTLoad();
 			}
-			this._xmlhttp.open("GET",this._url,true);
+			this._xmlhttp.open("GET", this._url, true);
 			this._xmlhttp.send();
 		},
 
-		_onMainRWTLoad : function(){
-			if (this._xmlhttp.readyState==4 && this._xmlhttp.status==200) {
+		_onMainRWTLoad : function() {
+			if ( this._xmlhttp.readyState == 4 && this._xmlhttp.status == 200 ) {
 				var obj = eval("(" + this._xmlhttp.responseText  + ')');		
 				jsw.remote.MessageProcessor.processMessage( obj );
 				var systemInstance = jsw.runtime.System.getInstance();
@@ -125,7 +126,7 @@ jsw.qx.Class.define( "jsw.connection.Connection", {
 				this._connected = true;
 				this._tryingToConnect = false;
 				jsw.runtime.System.getInstance().addEventListener( "unload", this._onUnload, this );
-				this._dispatchAsyncConnectEvent( );
+				this._dispatchAsyncConnectEvent();
 			}
 		},
 

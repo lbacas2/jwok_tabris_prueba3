@@ -1,10 +1,17 @@
 
 jsw.qx.Class.define( "renderer.tabris.ShellRenderer", {
 
-	extend : renderer.ShellRenderer,
+	extend : renderer.tabris.ParentWidgetRenderer,
 
 	members : {
 		render : function() {
+			var elem = new tabris.Page({
+					id :       this.getJSWWidget().getRenderRole() || '',
+					title :    this.getJSWWidget().getTitle() || 'icaria',
+					topLevel : true
+			}).open();
+
+			this.setEl( elem );				
 			this.base( arguments );
 			
 			this._renderIsDone();

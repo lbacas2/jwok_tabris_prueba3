@@ -139,8 +139,9 @@ jsw.qx.Class.define( "jsw.widgets.JSWDisplay", {
 		},
 		
 		_appendInitialHistoryEvent : function() {
-			var state = window.location.hash;
-			if( state !== "" ) {
+			var state = window.location.hash || '';
+			
+			if( state !== '' ) {
 				var type = "jsw.client.BrowserNavigation";
 				var history = jsw.client.BrowserNavigation.getInstance();
 				var handler = jsw.remote.HandlerRegistry.getHandler( type );
@@ -160,8 +161,8 @@ jsw.qx.Class.define( "jsw.widgets.JSWDisplay", {
 		},
 		
 		_appendQueryString : function() {
-			var queryString = window.location.search;
-		    if( queryString !== "" ) {
+			var queryString = window.location.search || '';
+		    if( queryString !== '' ) {
 		    	this._server.getMessageWriter().appendHead( "queryString", queryString.substr( 1 ) );
 		    }
 		},

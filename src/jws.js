@@ -33,7 +33,6 @@ var namespace = function( name ) {
 };
 
 var createConnection = function(connPath) {
-
 	// Se crea la conexión
 	connection = new jsw.connection.Connection();
 
@@ -43,7 +42,7 @@ var createConnection = function(connPath) {
 	
 	// Se pasan parametros a la conexión
 	connection.setUrl( connPath );
-
+	
 	// Se intenta conectar
 	connection.connect();
 	
@@ -52,9 +51,13 @@ var createConnection = function(connPath) {
 }
 
 var getServerUrl = function( pServerUrl, pServerPath ) {
-	pServerUrl  = pServerUrl  || ( typeof serverUrl  !== 'undefined' ? serverUrl  : window.location.pathname.replace(/\/[^\/]+$/,"") );
+	pServerUrl  = pServerUrl  || ( typeof serverUrl  !== 'undefined' ? serverUrl  : (window.location.pathname || '').replace(/\/[^\/]+$/,"") );
 	pServerPath = pServerPath || ( typeof serverPath !== 'undefined' ? serverPath : '/bewf' );
 	
 	return pServerUrl + pServerPath;
 }
 
+
+exports.namespace = namespace;
+exports.createConnection = createConnection;
+exports.getServerUrl = getServerUrl;

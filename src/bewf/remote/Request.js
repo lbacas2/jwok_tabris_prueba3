@@ -11,7 +11,9 @@
 
 /*global ActiveXObject: false */
 
-namespace( "jsw.remote" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.remote" );
 
 (function(){
 
@@ -90,11 +92,15 @@ jsw.remote.Request.prototype = {
     },
 
     _configRequest : function() {
-      if( !Client.isWebkit() ) {
-        this._request.setRequestHeader( "Referer", window.location.href );
+      if( !Client.isWebkit() && !Client.isTabris() ) {
+        this._request.setRequestHeader( "Referer", window.location.href || '' );
       }
       var contentType = "application/json; charset=UTF-8";
       this._request.setRequestHeader( "Content-Type", contentType );
+	  if ( Client.isTabris() ) {
+		this._request.setRequestHeader( "Accept-Language", navigator.language );
+	  }
+	  
       if( this._shouldUseStateListener() ) {
         this._request.onreadystatechange = jsw.util.Functions.bind( this._onReadyStateChange, this );
       }

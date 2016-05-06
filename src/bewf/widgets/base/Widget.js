@@ -3753,7 +3753,7 @@ jsw.qx.Class.define( "jsw.widgets.base.Widget", {
 
     _prepareGraphicsSupport : ( function() {
       var result;
-      if( jsw.client.Client.supportsCss3() || !jsw.graphics.GraphicsUtil.isSupported() ) {
+      if( jsw.client.Client.supportsCss3() ) {
         result = jsw.util.Functions.returnTrue;
       } else {
         result = function() {

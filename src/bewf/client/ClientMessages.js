@@ -9,7 +9,9 @@
  *    EclipseSource - initial API and implementation
  ******************************************************************************/
 
-namespace( "jsw.client" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.client" );
 
 jsw.client.ClientMessages = function() {
   this._messages = {};

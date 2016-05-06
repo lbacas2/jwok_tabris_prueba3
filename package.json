@@ -1,7 +1,7 @@
 {
-  "name": "Prueba3",
-  "description": "Tabris.js - Login screen",
-  "version": "0.0.1",
+  "name": "icaria CRM",
+  "description": "icaria CRM. Versión móvil",
+  "version": "0.0.2",
   "main": "src/start.js",
   "dependencies": {
     "tabris": "^1.7.0"

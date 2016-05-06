@@ -14,7 +14,9 @@
 
 /*global alert:false */
 
-namespace( "jsw.qx" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.qx" );
 
 /**
  * Each instance of a class defined by {@link #define} has the following keys attached to the

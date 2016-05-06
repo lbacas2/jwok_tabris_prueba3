@@ -11,7 +11,9 @@
  *    EclipseSource - adaptation for the Eclipse Remote Application Platform
  ******************************************************************************/
 
-namespace( "jsw.client" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.client" );
 
 /**
  * Basic client detection implementation.
@@ -38,6 +40,7 @@ jsw.client.Client = {
     this._initWebkit();
     this._initGecko();
     this._initMshtml();
+	this._initTabris();
     this._initBoxSizing();
     this._initLocale();
     this._initPlatform();
@@ -93,6 +96,10 @@ jsw.client.Client = {
 
   isWebkit : function() {
     return this._engineName === "webkit";
+  },
+  
+  isTabris : function() {
+    return this._engineName === "tabris.js";
   },
 
   getTimezoneOffset : function() {
@@ -355,6 +362,13 @@ jsw.client.Client = {
       }
     }
   },
+  
+  _initTabris : function() {
+    if( !this._isBrowserDetected() && typeof tabris !== 'undefined' && tabris.app !== undefined && tabris.device !== undefined && tabris.ui !== undefined ) {
+      this._engineName = "tabris.js";
+	  this._browserName = device.platform;
+    }
+  },
 
   _isBrowserDetected : function() {
     return this._engineName !== "unknown";
@@ -400,31 +414,21 @@ jsw.client.Client = {
   },
 
   _initPlatform : function() {
-    var platformStr = navigator.platform;
-    if(    platformStr.indexOf( "Windows" ) != -1
-        || platformStr.indexOf( "Win32" ) != -1
-        || platformStr.indexOf( "Win64" ) != -1 )
-    {
+    var platformStr = navigator.platform || '';
+    if( platformStr.indexOf( "Windows" ) != -1 || platformStr.indexOf( "Win32" ) != -1 || platformStr.indexOf( "Win64" ) != -1 ) {
       this._browserPlatform = "win";
-    } else if(    platformStr.indexOf( "Macintosh" ) != -1
-               || platformStr.indexOf( "MacPPC" ) != -1
-               || platformStr.indexOf( "MacIntel" ) != -1 )
-    {
+    } else if ( platformStr.indexOf( "Macintosh" ) != -1 || platformStr.indexOf( "MacPPC" ) != -1 || platformStr.indexOf( "MacIntel" ) != -1 ) {
       this._browserPlatform = "mac";
-    } else if(   platformStr.indexOf( "X11" ) != -1
-              || platformStr.indexOf( "Linux" ) != -1
-              || platformStr.indexOf( "BSD" ) != -1 )
-    {
+    } else if( platformStr.indexOf( "X11" ) != -1 || platformStr.indexOf( "Linux" ) != -1 || platformStr.indexOf( "BSD" ) != -1 ) {
       if( navigator.userAgent.indexOf( "Android" ) != -1 ) {
         this._browserPlatform = "android";
       } else {
         this._browserPlatform = "unix";
       }
-    } else if(    platformStr.indexOf( "iPhone" ) != -1
-               || platformStr.indexOf( "iPod" ) != -1
-               || platformStr.indexOf( "iPad" ) != -1 )
-    {
+    } else if( platformStr.indexOf( "iPhone" ) != -1 || platformStr.indexOf( "iPod" ) != -1 || platformStr.indexOf( "iPad" ) != -1  || platformStr.indexOf( "iOS" ) != -1 ) {
       this._browserPlatform = "ios";
+	} else if( navigator.userAgent.indexOf( "Android" ) != -1 ) {
+	  this._browserPlatform = "android";
     } else {
       this._browserPlatform = "other";
     }

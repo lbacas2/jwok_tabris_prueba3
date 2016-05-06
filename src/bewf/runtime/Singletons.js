@@ -10,7 +10,9 @@
  ******************************************************************************/
 
 /*jshint newcap: false */
-namespace( "jsw.runtime" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.runtime" );
 
 jsw.runtime.Singletons = {
 

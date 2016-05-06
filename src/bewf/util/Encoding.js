@@ -9,7 +9,9 @@
  *    EclipseSource - initial API and implementation
  ******************************************************************************/
 
-namespace( "jsw.util" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.util" );
 
 jsw.util.Encoding = {
 

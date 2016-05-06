@@ -10,7 +10,9 @@
  *    EclipseSource - ongoing development
  ******************************************************************************/
 
-namespace( "jsw.remote" );
+var jws = require("../../jws.js");
+ 
+jws.namespace( "jsw.remote" );
 
 (function() {
 

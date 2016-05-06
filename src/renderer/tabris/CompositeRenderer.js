@@ -1,14 +1,15 @@
 
 jsw.qx.Class.define( "renderer.tabris.CompositeRenderer", {
 
-	extend : renderer.CompositeRenderer,
+	extend : renderer.tabris.ParentWidgetRenderer,
 
 	members : {
 		render : function() {
-			if ( this.getParent() !== null && this.getParent().getEl() !== null ) {
+			var parentElem = this.getEffectiveParentElement();
+			if ( parentElem !== null ) {
 				var elem = new tabris.Composite({
-						id : this.getJSWWidget().getRenderRole()
-				}).appendTo( this.getParent().getEl() );
+						id : this.getJSWWidget().getRenderRole() || ''
+				}).appendTo( parentElem );
 				
 				this.setEl( elem );
 				
