@@ -1,5 +1,5 @@
 {
-  "name": "icaria CRM",
+  "name": "icariaCRM",
   "description": "icaria CRM. Versión móvil",
   "version": "0.0.2",
   "main": "src/start.js",
